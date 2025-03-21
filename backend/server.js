@@ -2,13 +2,16 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 
+import itemRoutes from "./routes/item.route.js";
+
 dotenv.config();
 
 const app = express();
 
-app.get("/items", (req, res) => {
-    res.send("Server is ready");
-})
+// allow JSON data in the req.body:
+app.use(express.json());
+
+app.use("/api/items", itemRoutes);
 
 app.listen(5000, () => {
     connectDB();
