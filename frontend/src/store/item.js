@@ -18,5 +18,10 @@ export const useItemStore = create((set) => ({
         const data = await res.json();
         set((state) => ({ items: [...state.items, data.data] }));
         return { success: true, message: "Item was created successfully." };
+    },
+    fetchItems: async () => {
+        const res = await fetch("/api/items");
+        const data = await res.json();
+        set({ items: data.data });
     }
 }))
