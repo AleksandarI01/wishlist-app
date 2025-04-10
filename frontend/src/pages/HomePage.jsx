@@ -12,7 +12,7 @@ const HomePage = () => {
     }, [fetchItems]);
 
     return (
-        <Container maxW='cotnainer.xl' py={12}>
+        <Container maxW='container.xl' py={12}>
             <VStack spacing={8}>
                 <Text
                     fontSize={"30"}
@@ -37,19 +37,21 @@ const HomePage = () => {
                     ))}
                 </SimpleGrid>
 
-                <Text
-                    fontSize='xl'
-                    textAlign={"center"}
-                    fontWeight='bold'
-                    color='gray.500'
-                >
-                    There are no items defined in your wishlist.{" "}
-                    <Link to={"/create"}>
-                        <Text as='span' color='blue.500' _hover={{ textDecoration: "underline" }}>
-                            Create an item
-                        </Text>
-                    </Link>
-                </Text>
+                {items.length === 0 && (
+                    <Text
+                        fontSize='xl'
+                        textAlign={"center"}
+                        fontWeight='bold'
+                        color='gray.500'
+                    >
+                        There are no items defined in your wishlist.{" "}
+                        <Link to={"/create"}>
+                            <Text as='span' color='blue.500' _hover={{ textDecoration: "underline" }}>
+                                Create an item
+                            </Text>
+                        </Link>
+                    </Text>
+                )}
             </VStack>
         </Container>
     )
