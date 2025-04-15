@@ -23,5 +23,19 @@ export const useItemStore = create((set) => ({
         const res = await fetch("/api/items");
         const data = await res.json();
         set({ items: data.data });
+    },
+    deleteItem: async (itemId) => {
+        const res = await fetch(`/api/items/${itemId}`, {
+            method: "DELETE",
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            set(state => ({ items: state.items.filter(item => item._id !== itemId) }));
+            return { success: true, message: data.message };
+        } else {
+            return { success: false, message: data.message };
+        }
     }
-}))
+}));

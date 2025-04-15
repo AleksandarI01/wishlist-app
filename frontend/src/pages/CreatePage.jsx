@@ -19,6 +19,7 @@ const CreatePage = () => {
             toast({
                 title: "Success",
                 description: message,
+                position: 'top',
                 status: "success",
                 duration: 1900,
                 isClosable: true
@@ -28,6 +29,7 @@ const CreatePage = () => {
             toast({
                 title: "Error",
                 description: message,
+                position: 'top',
                 status: "error",
                 duration: 2200,
                 isClosable: false
