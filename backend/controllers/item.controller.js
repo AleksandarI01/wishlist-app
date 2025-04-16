@@ -6,7 +6,7 @@ export const getItems = async (req, res) => {
         const items = await Item.find({});
         res.status(200).json({ success: true, data: items });
 
-    } catch(error) {
+    } catch (error) {
         res.status(500).json({ success: false, message: "Server Error" });
     }
 }
@@ -15,8 +15,8 @@ export const createItem = async (req, res) => {
     const item = req.body; // user sends this data
 
     const isDataInvalid = !item.name || !item.price;
-    if(isDataInvalid) {
-        return res.status(400).json({ success: false, message: "not all  fields were given" });
+    if (isDataInvalid) {
+        return res.status(400).json({ success: false, message: "not all required fields were given" });
     }
 
     const newItem = new Item(item);
@@ -34,29 +34,34 @@ export const updateItem = async (req, res) => {
     const { id } = req.params;
     const item = req.body;
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
+    if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ success: false, message: `Item with id=${id} not found!` });
     }
 
+    const isDataInvalid = !item.name || !item.price;
+    if (isDataInvalid) {
+        return res.status(400).json({ success: false, message: "not all required fields were given" });
+    }
+
     try {
-        const updatedItem = await Item.findByIdAndUpdate(id, item, {new: true});
-        res.status(200).json({ success: true, data: updatedItem })
-    } catch(error) {
+        const updatedItem = await Item.findByIdAndUpdate(id, item, { new: true });
+        res.status(200).json({ success: true, data: updatedItem, message: "Item successfully updated!" })
+    } catch (error) {
         res.status(500).json({ success: false, message: "Server Error" });
     }
 }
 
-export const deleteItem = async(req, res) => {
+export const deleteItem = async (req, res) => {
     const { id } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ success: false, message: "Invalid Item Id!" });
     }
 
     try {
         await Item.findByIdAndDelete(id);
         res.status(200).json({ success: true, message: "Item was successfully deleted." })
-    } catch(error) {
+    } catch (error) {
         res.status(500).json({ success: false, message: "Server Error" });
     }
 }
