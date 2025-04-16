@@ -16,7 +16,7 @@ export const createItem = async (req, res) => {
 
     const isDataInvalid = !item.name || !item.price;
     if (isDataInvalid) {
-        return res.status(400).json({ success: false, message: "not all  fields were given" });
+        return res.status(400).json({ success: false, message: "not all required fields were given" });
     }
 
     const newItem = new Item(item);
@@ -36,6 +36,11 @@ export const updateItem = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ success: false, message: `Item with id=${id} not found!` });
+    }
+
+    const isDataInvalid = !item.name || !item.price;
+    if (isDataInvalid) {
+        return res.status(400).json({ success: false, message: "not all required fields were given" });
     }
 
     try {
