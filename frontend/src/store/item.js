@@ -37,5 +37,25 @@ export const useItemStore = create((set) => ({
         } else {
             return { success: false, message: data.message };
         }
+    },
+    updateItem: async (itemId, updatedItem) => {
+        const res = await fetch(`/api/items/${itemId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedItem),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            set((state) => ({
+                items: state.items.map((item) => item._id === itemId ? data.data : item)
+            }));
+            return { success: true, message: data.message };
+        } else {
+            return { success: false, message: data.message };
+        }
     }
 }));
